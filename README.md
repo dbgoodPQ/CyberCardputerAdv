@@ -1,5 +1,9 @@
 # Purplx — Cyberdeck OS for M5Stack Cardputer ADV
 
+> **ST7789V fork.** This is a fork of [purplxhazee/Purplx-](https://github.com/purplxhazee/Purplx-)
+> (MIT) modified to use a **ST7789V 240×320** SPI display as the external "big screen"
+> instead of the original ILI9341. Wiring is identical; see [Display tuning](#display-tuning-st7789v).
+
 A full-featured cyberdeck firmware for the **M5Stack Cardputer ADV** (ESP32-S3).
 Not a hacking tool — a cyberpunk *operating system*: 10 games, off-grid survival
 guides, EDC utilities, a WiFi CSI human-presence radar, music player, virtual pet,
@@ -12,19 +16,19 @@ boot Marauder / Bruce / any `.bin` and return to Purplx with one button press.
 
 | Required | Optional |
 |---|---|
-| M5Stack Cardputer ADV (ESP32-S3, 8 MB flash) | ILI9341 320×240 external display (SPI) |
+| M5Stack Cardputer ADV (ESP32-S3, 8 MB flash) | ST7789V 240×320 external display (SPI) |
 | USB-C cable for flashing | MicroSD card (FAT32, ≤ 32 GB) |
 
 The Cardputer's built-in ST7789 135×240 screen is always used as a HUD / context panel.
-The ILI9341 is the "big screen" — most apps render their main view there. Everything
-still works without it; the HUD screen just shows whatever fits.
+The ST7789V is the "big screen" — most apps render their main view there (320×240
+landscape). Everything still works without it; the HUD screen just shows whatever fits.
 
-### ILI9341 Wiring
+### ST7789V Wiring
 
-| ILI9341 pin | Cardputer ADV GPIO |
+| ST7789V pin | Cardputer ADV GPIO |
 |---|---|
 | CLK / SCK | GPIO 40 (shared bus clock) |
-| SDI / MOSI | **GPIO 14** (ILI9341-only) |
+| SDI / MOSI | **GPIO 14** (external-display-only) |
 | DC / RS | GPIO 6 |
 | CS | GPIO 5 |
 | RST | GPIO 3 |
@@ -34,6 +38,20 @@ still works without it; the HUD screen just shows whatever fits.
 > **Note:** GPIO 3 / 5 / 6 conflict with CapLoRa GPS. If you use a Grove GPS
 > module it's fine (uses GPIO 1/2). If you use CapLoRa GPS (GPIO 15/13) it's
 > also fine. Standard CapLoRa SX1262 radio only conflicts with GPS on the same module.
+
+### Display tuning (ST7789V)
+
+ST7789V modules vary, so three settings at the top of `include/display_config.h`
+(overridable with `-D` build flags) let you fix common problems without touching code:
+
+| Symptom | Setting |
+|---|---|
+| Colours look like a photo negative | `EXT_PANEL_INVERT` → `false` (default `true`) |
+| Red and blue are swapped | `EXT_PANEL_RGB_ORDER` → `true` (default `false`) |
+| Noise / garbage on the screen | lower `EXT_SPI_FREQ` to `20000000` (default `27000000`) |
+
+If the image is mirrored or upside-down, change the `setRotation(7)` call for the
+external screen in `src/core/display.cpp` (try 1, 3 or 5).
 
 ---
 
@@ -86,7 +104,7 @@ Controls: `A/D` cycle action, `ENTER` do it, `ESC` back
 
 ### Games
 
-All games display on the ILI9341 big screen. The HUD shows score / stats.
+All games display on the ST7789V big screen. The HUD shows score / stats.
 Every game shows a **How-to screen** when first launched — press any key to start.
 `ESC` quits back to the home menu from any game.
 
