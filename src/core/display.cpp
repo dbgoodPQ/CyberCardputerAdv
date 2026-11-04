@@ -40,7 +40,7 @@ bool init() {
     const bool secondary_ok = g_lcd_secondary.init();
     if (secondary_ok) {
         Serial.println("DISPLAY4");
-        g_lcd_secondary.setRotation(7);   // confirmed from skizzophrenic source
+        g_lcd_secondary.setRotation(1);
         g_lcd_secondary.setBrightness(220);
         g_lcd_secondary.fillScreen(TFT_BLACK);
         Serial.println("[Display] ST7789V secondary OK");

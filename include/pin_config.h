@@ -98,5 +98,5 @@
 // ─── Display Dimensions ───────────────────────────────────────────────────────
 #define LCD_PRIMARY_W      240   // ST7789 landscape
 #define LCD_PRIMARY_H      135
-#define LCD_EXT_W          320   // ILI9341 landscape (after setRotation(7))
+#define LCD_EXT_W          320   // ST7789V landscape (after setRotation(1))
 #define LCD_EXT_H          240

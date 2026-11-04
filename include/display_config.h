@@ -114,9 +114,9 @@ public:
 //   - dma_channel = 0 (not AUTO — proven stable on shared bus from PorkChop)
 //   - freq_write = 27MHz (conservative for DuPont cable runs)
 //   - No backlight PWM (LED pin tied to 3.3V)
-//   - setRotation(7) called post-init, NOT offset_rotation in panel config
+//   - setRotation(1) called post-init, NOT offset_rotation in panel config
 //
-// Panel memory is 240×320 (portrait). setRotation(7) yields 320×240 landscape.
+// Panel memory is 240×320 (portrait). setRotation(1) yields 320×240 landscape.
 // =============================================================================
 class LGFX_Secondary : public lgfx::LGFX_Device {
     lgfx::v1::Panel_ST7789  _panel;   // ST7789V 240x320 external screen
@@ -146,14 +146,14 @@ public:
             cfg.pin_rst         = PIN_EXT_RST;    // 3
             cfg.pin_busy        = -1;
             // Physical panel + memory: 240×320 (portrait native)
-            // setRotation(7) post-init gives us 320×240 landscape
+            // setRotation(1) post-init gives us 320×240 landscape
             cfg.memory_width    = 240;
             cfg.memory_height   = 320;
             cfg.panel_width     = 240;
             cfg.panel_height    = 320;
             cfg.offset_x        = 0;
             cfg.offset_y        = 0;
-            cfg.offset_rotation = 0;       // Rotation applied via setRotation(7) in Display::init()
+            cfg.offset_rotation = 0;       // Rotation applied via setRotation(1) in Display::init()
             cfg.dummy_read_pixel = 8;
             cfg.dummy_read_bits  = 1;
             cfg.readable        = false;   // spi_3wire — no readback

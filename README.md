@@ -50,8 +50,9 @@ ST7789V modules vary, so three settings at the top of `include/display_config.h`
 | Red and blue are swapped | `EXT_PANEL_RGB_ORDER` → `true` (default `false`) |
 | Noise / garbage on the screen | lower `EXT_SPI_FREQ` to `20000000` (default `27000000`) |
 
-If the image is mirrored or upside-down, change the `setRotation(7)` call for the
-external screen in `src/core/display.cpp` (try 1, 3 or 5).
+The external screen uses `setRotation(1)` for landscape orientation in
+`src/core/display.cpp`. If your module is mounted differently, try another
+landscape rotation (3, 5 or 7).
 
 ---
 
